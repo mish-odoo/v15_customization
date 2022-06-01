@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mrp_bom_form_view_custom_fields_added" model="ir.ui.view">
+            <field name="name">mrp.bom.form.inherit.custom.fields.added</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="total_cost_over_head_percent" />
+                    <field name="cost_visible"/>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']//tree" position="inside">
+                    <field name="loss_percent" optional="show"/>
+                    <field name="is_supplementary_product" optional="show"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='operations']" position="after">
+                    <!-- Cost of OverHeads -->
+                    <page string="OverHead" name="overhead">
+                        <field name="overhead_line_ids" widget="one2many">
+                            <tree string="OverHead Products" editable="bottom">
+                                <field name="product_id"/>
+                                <field name="overhead_parameters" />
+                                <field name="overhead_cost" />
+                            </tree>
+                        </field>
+                        <group name="over_head_group" col="6" class="mt-2 mt-md-0">
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="overhead_total"/>
+                        </group>
+                    </page>
+                    <!-- Added the Custom Opertions - Same Operations With Multi-workcenters -->
+                    <page string="Custom Operations" name="custom_operations">
+                        <field name="operation_workcenter_ids" widget="one2many">
+                            <tree string="Operation Workcenter" editable="bottom">
+                                <field name="operation_id" />
+                                <field name="workcenter_id" attrs="{'required': [('operation_id', '!=', False)]}"/>
+                                <field name="time_cycle" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record> 
+    </data>
+</odoo>
