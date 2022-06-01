@@ -47,7 +47,6 @@
                 </xpath>
                 <xpath expr="//field[@name='bom_line_ids']//tree/field[@name='product_qty']" position="attributes">
                     <attribute name="attrs">{'readonly': [('coefficent_parameters', '!=', False)]}</attribute>
-                    <attribute name="force_save">1</attribute>
                 </xpath>
             </field>
         </record> 
