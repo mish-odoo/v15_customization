@@ -15,17 +15,6 @@ class MrpBom(models.Model):
                                                'Operation Workcenter')
     weight = fields.Float(related='product_tmpl_id.weight', string='Weight', digits='Stock Weight')
 
-    @api.model
-    def create(self, values):
-        result = super(MrpBom, self).create(values)
-        [line.call_onchange() for line in result.bom_line_ids]
-        return result
-
-    def write(self, values):
-        res = super(MrpBom, self).write(values)
-        [line.call_onchange() for line in self.bom_line_ids]
-        return res
-
 
 class MrpBomLine(models.Model):
     """MRP BOM OverHeads Loss Percent"""
@@ -40,12 +29,6 @@ class MrpBomLine(models.Model):
 
     @api.onchange('coefficent_parameters', 'quantity_ratio_percent', 'quantity_coefficient')
     def _onchange_coefficent_parameters(self):
-        for line in self:
-            if not line.coefficent_parameters:
-                continue
-            self.call_onchange()
-
-    def call_onchange(self):
         if self.coefficent_parameters == 'percentage_with_co':
             self.product_qty = self.bom_id.weight * ((self.quantity_ratio_percent / 100) / self.quantity_coefficient if self.quantity_coefficient else 1)
         elif self.coefficent_parameters == 'only_co':
