@@ -13,6 +13,9 @@
                 <xpath expr="//field[@name='bom_line_ids']//tree" position="inside">
                     <field name="loss_percent" optional="show"/>
                     <field name="is_supplementary_product" optional="show"/>
+                    <field name="quantity_ratio_percent"/>
+                    <field name="quantity_coefficient"/>
+                    <field name="coefficent_parameters"/>
                 </xpath>
                 <xpath expr="//notebook/page[@name='operations']" position="after">
                     <!-- Cost of OverHeads -->
@@ -38,6 +41,12 @@
                             </tree>
                         </field>
                     </page>
+                </xpath>
+                <xpath expr="//form/sheet/group/group/div[hasclass('o_row')]" position="after">
+                    <field name="weight"/>
+                </xpath>
+                <xpath expr="//field[@name='bom_line_ids']//tree/field[@name='product_qty']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('coefficent_parameters', '!=', False)]}</attribute>
                 </xpath>
             </field>
         </record> 

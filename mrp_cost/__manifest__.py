@@ -25,6 +25,7 @@
     7.Added the Workcentergroup on Workcenter.
     """,
     'author': 'Odoo P.S',
+    'license': 'LGPL-3',
     'website': "http://www.odoo.com",
     'depends': ['product', 'mrp', 'mrp_account_enterprise', 'hr_timesheet'],
     'data': [
