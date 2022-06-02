@@ -12,6 +12,12 @@
                         <label for="is_overhead"/>
                     </span>
                 </xpath>
+                <xpath expr="//group[@name='group_lots_and_weight']//div[hasclass('o_row')]" position="inside">
+                     <button name="button_bom_weight"
+                             string="Update BoM with new weight" type="object"
+                             class="oe_link oe_read_only pt-0"
+                             help="Update the BoM Lines quantity with the latest weight."/>
+                </xpath>
             </field>
         </record>
     </data>

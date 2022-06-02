@@ -8,3 +8,6 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     is_overhead = fields.Boolean('Is Overhead?')
+
+    def button_bom_weight(self):
+        return self.mapped('product_variant_id').button_bom_weight()

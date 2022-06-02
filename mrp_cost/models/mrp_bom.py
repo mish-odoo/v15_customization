@@ -26,12 +26,10 @@ class MrpBomLine(models.Model):
     quantity_coefficient = fields.Integer("Quantity Coefficient")
     coefficent_parameters = fields.Selection([('percentage_with_co', '% with Co.'),
                                               ('only_co', 'Only Co.')], string="Coefficent", default=False)
-    product_qty = fields.Float(compute='_compute_product_qty', store=True)
 
-    @api.depends('coefficent_parameters', 'quantity_ratio_percent', 'quantity_coefficient', 'bom_id.weight')
-    def _compute_product_qty(self):
-        for line in self:
-            if line.coefficent_parameters == 'percentage_with_co':
-                line.product_qty = line.bom_id.weight * ((line.quantity_ratio_percent / 100) / (line.quantity_coefficient or 1))
-            elif line.coefficent_parameters == 'only_co':
-                line.product_qty = line.bom_id.product_qty / (line.quantity_coefficient or 1)
+    @api.onchange('coefficent_parameters', 'quantity_ratio_percent', 'quantity_coefficient')
+    def _onchange_coefficent_parameters(self):
+        if self.coefficent_parameters == 'percentage_with_co':
+            self.product_qty = self.bom_id.weight * ((self.quantity_ratio_percent / 100) / (self.quantity_coefficient or 1))
+        elif self.coefficent_parameters == 'only_co':
+            self.product_qty = self.bom_id.product_qty / (self.quantity_coefficient or 1)
